@@ -5,6 +5,7 @@ const app = express();
 const PORT = 4000;
 
 app.set("view engine", "pug");
+app.set("views", "./src/views");
 
 app.get("/", home);
 app.get("/about", about);
