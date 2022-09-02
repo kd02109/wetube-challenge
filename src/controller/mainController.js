@@ -1,15 +1,18 @@
-export const home = (req, res) => {
+export const getHome = (req, res) => {
   return res.render("index", { pageTitle: "Home" });
 };
 
-export const about = (req, res) => {
-  return res.render("about", { pageTitle: "about" });
+export const getTrending = (req, res) => {
+  return res.render("about", { pageTitle: "Trending" });
 };
 
-export const contact = (req, res) => {
-  return res.render("contact", { pageTitle: "contact" });
+export const getNew = (req, res) => {
+  return res.render("contact", { pageTitle: "NEW" });
 };
 
-export const login = (req, res) => {
+export const getLogin = (req, res) => {
   return res.render("login", { pageTitle: "login" });
+};
+export const getJoin = (req, res) => {
+  return res.send("join");
 };
