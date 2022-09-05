@@ -1,9 +1,12 @@
 export const getProfile = (req, res) => {
-  return res.send("getProfile");
+  return res.render("user/profile", { pageTitle: "PROFILE" });
 };
 export const getUser = (req, res) => {
-  return res.send("getUser");
+  const { id } = req.params;
+  return res.render("user/user-list", { pageTitle: "USER" }, { id });
 };
+
 export const getEditProfile = (req, res) => {
-  return res.send("getEditProfile");
+  const { id } = req.params;
+  return res.render("user/edit-user", { pageTitle: "EDIT PROFILE" }, { id });
 };

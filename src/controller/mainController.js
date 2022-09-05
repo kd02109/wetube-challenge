@@ -1,18 +1,18 @@
 export const getHome = (req, res) => {
-  return res.render("index", { pageTitle: "Home" });
+  return res.render("home", { pageTitle: "Home" });
 };
 
 export const getTrending = (req, res) => {
-  return res.render("about", { pageTitle: "Trending" });
+  return res.render("story/trending", { pageTitle: "TRENDING" });
 };
 
 export const getNew = (req, res) => {
-  return res.render("contact", { pageTitle: "NEW" });
+  return res.render("story/new-stories", { pageTitle: "NEW STORY" });
 };
 
 export const getLogin = (req, res) => {
-  return res.render("login", { pageTitle: "login" });
+  return res.render("user/login", { pageTitle: "LOGIN" });
 };
 export const getJoin = (req, res) => {
-  return res.send("join");
+  return res.render("user/join", { pageTitle: "JOIN" });
 };
