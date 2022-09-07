@@ -6,9 +6,7 @@ import {
   timeLogger,
   urlLogger,
 } from "./middleware/middleware.js";
-import globalRouter from "./router/globalRouter";
-import storyRouter from "./router/storyRouter";
-import userRouter from "./router/userRouter";
+import movieRouter from "./router/movieRouter";
 
 const app = express();
 const PORT = 4000;
@@ -19,9 +17,7 @@ app.set("views", "./src/views");
 
 app.use(logger);
 app.use(urlLogger, timeLogger, securityLogger, protectorMiddelware);
-app.use("/users", userRouter);
-app.use("/stories", storyRouter);
-app.use("/", globalRouter);
+app.use("/", movieRouter);
 
 const handleListening = () => {
   console.log("😁 I start the Server");

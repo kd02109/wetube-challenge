@@ -1,3 +1,11 @@
 extends partials/layout.pug 
-block content 
+block content
     include partials/header.pug
+    form(action="/filter")
+        input(type="text",name="year",placeholder="Fillter by year")
+        input(type="text",name="rate",Placeholder="Filter by rating")
+        button SEARCH
+    div 
+        each info in movies
+          h3 
+            a(href=`/${info.id}`)=info.title

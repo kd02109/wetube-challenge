@@ -1,0 +1,12 @@
+extends partials/layout.pug 
+block content
+    div 
+      p=movie.summary 
+    div 
+      ul 
+        each gener in movie.genres
+          li=gener
+        each src in movie 
+
+
+    include partials/header.pug
