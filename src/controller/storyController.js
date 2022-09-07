@@ -1,5 +1,7 @@
 export const getWatchStory = (req, res) => {
-  return res.render("story/watch", { pageTitle: "WATCH" });
+  const id = req.params.id;
+  console.log(id);
+  return res.render("story/watch", { pageTitle: "WATCH", url: id });
 };
 export const getEditStory = (req, res) => {
   return res.render("story/edit-stories.", { pageTitle: "EDIT STORY" });
