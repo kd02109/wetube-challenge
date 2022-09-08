@@ -41,3 +41,17 @@ export const filterMovie = (req, res) => {
     return res.render("filter", { pageTitle: "Nothing Else" });
   }
 };
+
+export const getAdd = (req, res) => {
+  return res.render("add", { pageTitle: "ADD MOVIE" });
+};
+
+export const postAdd = (req, res) => {
+  const {
+    body: { title, gener, synopsis },
+  } = req;
+  const gernerArray = gener.split(",");
+  addMovie({ title, synopsis, genres: gernerArray });
+
+  return res.redirect("/");
+};

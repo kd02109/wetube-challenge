@@ -16,6 +16,7 @@ app.set("view engine", "pug");
 app.set("views", "./src/views");
 
 app.use(logger);
+app.use(express.urlencoded({ extended: true }));
 app.use(urlLogger, timeLogger, securityLogger, protectorMiddelware);
 app.use("/", movieRouter);
 
