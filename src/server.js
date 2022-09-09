@@ -1,3 +1,5 @@
+import "./db";
+import "./model/Movie.js";
 import express from "express";
 import morgan from "morgan";
 import {
@@ -6,6 +8,7 @@ import {
   timeLogger,
   urlLogger,
 } from "./middleware/middleware.js";
+
 import globalRouter from "./router/globalRouter";
 import storyRouter from "./router/storyRouter";
 import userRouter from "./router/userRouter";
