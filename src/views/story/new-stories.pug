@@ -1,7 +1,13 @@
 extends ../partials/layout
-block content 
+block content
+    div 
+        if errorMessage 
+            span=errorMessage 
+
     form(method="post")
         input(name="title",type="text",required=true,placeholder="Write Story Title")
+        input(name="rating",type="text",required=true,placeholder="Write Rating 0~10")
         input(name="hashtag",type="hasgtag",required=true,placeholder="Write Hashtag(,)")
         input(name="description",type="text",required=true,placeholder="Write Description")
+        input(name="year",type="number",required=true,placeholder="Write release year")
         button MAKE STORY

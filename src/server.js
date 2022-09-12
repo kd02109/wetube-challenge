@@ -20,6 +20,7 @@ const logger = morgan("dev");
 app.set("view engine", "pug");
 app.set("views", "./src/views");
 
+app.use(express.urlencoded({ extended: true }));
 app.use(logger);
 app.use(urlLogger, timeLogger, securityLogger, protectorMiddelware);
 app.use("/users", userRouter);

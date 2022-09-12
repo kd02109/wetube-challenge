@@ -1,8 +1,2 @@
 mixin story(story)
-    a(href=`/videos/${info.id}`).video-mixin 
-    div.video-mixin_thum(style=`background-image:url(${info.thumbUrl});background-size:cover;background-position:center;`)
-    div.video-mixin__data
-        span.video-mixin__title=info.title
-        div.video-mixin__meta
-            span #{info.owner.name} • 
-            span #{info.meta.views}회 
+    a(href=`/stories/${story._id}`)=story.title 

@@ -7,5 +7,12 @@ const moviesSchema = new mongoose.Schema({
   rating: { type: Number, required: true },
   genres: [{ type: String, required: true }],
 });
+// findByID와 같은 function을 만드는 방법!
+moviesSchema.static("changeGenres", function (genres) {
+  return genres
+    .split(",")
+    .map((genre) => (genre.startsWith("#") ? genre : `#${genre}`));
+});
+
 const movieModel = mongoose.model("Movie", moviesSchema);
 export default movieModel;

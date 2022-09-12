@@ -1,8 +1,19 @@
 extends ../partials/layout.pug 
 block content 
-    nav 
+    div 
+        h1=movie.title 
+        p DESCRIPTION: #{movie.summary}
+        span=movie.rating
+    div 
+        nav 
+            ul 
+                each genre in movie.genres 
+                    li 
+                        h4=genre
+    nav     
+
         ul 
-            li 
-                a(href=`${url}/edit`) EDIT STORY
+            li  
+                a(href=`${movie._id}/edit`) EDIT STORY
             li     
-                a(href=`${url}/delete`) DELETE STORY
+                a(href=`${movie._id}/delete`) DELETE STORY

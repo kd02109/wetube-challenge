@@ -1,0 +1,12 @@
+extends ../partials/layout
+
+block content 
+    form(method="get")
+        input(name="keyword" type="text", placeholder="search title")
+        input(name="genres" type="text", placeholder="search genres")
+        button Search
+    
+    div 
+        each video in videos 
+            h1 
+                a(href=`/stories/${video._id}`)=video.title
