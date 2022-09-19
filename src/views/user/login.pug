@@ -1,5 +1,9 @@
 extends ../partials/layout
 block content 
+    div 
+        if errorMessage
+            h2=errorMessage
+            
     form(method="post")
         input(name="id",type="text",required=true,placeholder="Write ID")
         input(name="password",type="password",required=true,placeholder="Write Password")

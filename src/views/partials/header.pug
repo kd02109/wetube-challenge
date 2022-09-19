@@ -5,10 +5,14 @@ header
                 a(href="/trending") TRENDING
             li 
                 a(href="/new") NEW STORY
-            li 
-                a(href="/join") JOIN
-            li 
-                a(href="/login") LOGIN
+            if !loggedIn
+                li 
+                    a(href="/join") JOIN
+                li 
+                    a(href="/login") LOGIN
+            if loggedIn 
+                li 
+                    a(href="/logout") LOG OUT
             li 
                 a(href="/search") SEARCH
             li 

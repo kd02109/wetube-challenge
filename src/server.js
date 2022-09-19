@@ -2,11 +2,13 @@ import "./db";
 import "./model/Movie.js";
 import express from "express";
 import morgan from "morgan";
+import session from "express-session";
 import {
   protectorMiddelware,
   securityLogger,
   timeLogger,
   urlLogger,
+  localMiddleware,
 } from "./middleware/middleware.js";
 
 import globalRouter from "./router/globalRouter";
@@ -23,6 +25,14 @@ app.set("views", "./src/views");
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
 app.use(urlLogger, timeLogger, securityLogger, protectorMiddelware);
+app.use(
+  session({
+    secret: "Hello",
+    resave: true,
+    saveUnintialized: true,
+  })
+);
+app.use(localMiddleware);
 app.use("/users", userRouter);
 app.use("/stories", storyRouter);
 app.use("/", globalRouter);

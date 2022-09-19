@@ -31,3 +31,9 @@ export const protectorMiddelware = (req, res, next) => {
   }
   return next();
 };
+
+export const localMiddleware = (req, res, next) => {
+  res.locals.loggedIn = Boolean(req.session.loggedIn);
+  res.locals.loggedInUser = req.session.user;
+  return next();
+};
