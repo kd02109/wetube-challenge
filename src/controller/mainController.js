@@ -129,3 +129,8 @@ export const postJoin = async (req, res) => {
     });
   }
 };
+
+export const getLogout = (req, res) => {
+  req.session.destroy();
+  return res.redirect("/");
+};
