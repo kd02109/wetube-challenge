@@ -37,3 +37,17 @@ export const localMiddleware = (req, res, next) => {
   res.locals.loggedInUser = req.session.user;
   return next();
 };
+
+export const protectLogin = (req, res, next) => {
+  if (!req.session.loggedIn) {
+    return redirect("/");
+  }
+  next();
+};
+
+export const protectNotLogin = (req, res, next) => {
+  if (req.session.loggedIn) {
+    return redirect("/login");
+  }
+  next();
+};

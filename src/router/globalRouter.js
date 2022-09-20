@@ -11,15 +11,16 @@ import {
   getSearch,
   getLogout,
 } from "../controller/mainController.js";
+import { protectLogin, protectNotLogin } from "../middleware/middleware.js";
 
 const globalRouter = express.Router();
 
 globalRouter.get("/", getHome);
-globalRouter.route("/new").get(getNew).post(postNew);
-globalRouter.route("/login").get(getLogin).post(postLogin);
-globalRouter.route("/join").get(getJoin).post(postJoin);
+globalRouter.route("/new").all(protectNotLogin).get(getNew).post(postNew);
+globalRouter.route("/login").all(protectNotLogin).get(getLogin).post(postLogin);
+globalRouter.route("/join").all(protectNotLogin).get(getJoin).post(postJoin);
 globalRouter.get("/trending", getTrending);
 globalRouter.get("/search", getSearch);
-globalRouter.get("/logout", getLogout);
+globalRouter.all(protectLogin).get("/logout", getLogout);
 
 export default globalRouter;
