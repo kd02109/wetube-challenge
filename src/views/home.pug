@@ -1,8 +1,22 @@
-extends partials/layout.pug 
-include mixin/story.pug
-block content 
-    include partials/header.pug
-    block content
-      div 
-        each movie in movies
-          +story(movie)
+<DOCTYPE! html>
+html 
+  head 
+    title TEXT FILE UPLOAD 
+    link(rel="stylesheet",href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css")
+  body 
+    h1 TXT TO HTML
+    div 
+      if errorMessage 
+        span=errorMessage
+
+    div 
+      form(method="post"  enctype="multipart/form-data")
+        label(for="text") TEXT
+        input(type="file", name="text", id="text", required, accept="text/*",)
+        button CONVERT
+
+    div 
+      if files
+        each file in files
+            a(href=`./read/${file}`)=`${file}` 
+            br
