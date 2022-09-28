@@ -1,132 +1,55 @@
-const $video = document.querySelector("video");
-const $playBtn = document.querySelector("#playPauseBtn");
-const $volumn = document.querySelector("#volume");
-const $volumnRange = document.querySelector("#volumeRange");
-const $currentTime = document.querySelector("#currentTime");
-const $endTime = document.querySelector("#endTime");
-const $timeLine = document.querySelector("#timeLine");
-const $screen = document.querySelector("#screen");
-const $videoBox = document.querySelector("#videoBox");
-const $videoController = document.querySelector("#videoController");
+const $recordBtn = document.querySelector("#recordBtn");
+const $audio = document.querySelector("#audio");
+let stream = null;
+let recorder = null;
+let audio = null;
 
-let volumnValue = 0.5;
-
-$video.volume = volumnValue;
-
-let controlsTimeout = null;
-let controllHide = null;
-
-const playVideo = (event) => {
-  if ($video.paused) {
-    $video.play();
-    $playBtn.className = "fas fa-pause";
-  } else {
-    $video.pause();
-    $playBtn.className = "fas fa-play";
-  }
+const recordFunction = async () => {
+  stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: false,
+  });
+  $audio.srcObject = stream;
+  $audio.play();
 };
-const volumnBtn = (event) => {
-  if ($video.muted) {
-    $video.muted = false;
-    $volumnRange.value = volumnValue;
-    event.target.className = "fas fa-volume-up";
-  } else {
-    $video.muted = true;
-    $volumnRange.value = 0;
-    event.target.className = "fas fa-volume-mute";
-  }
-};
-const handleVolumnRange = (event) => {
-  const {
-    target: { value },
-  } = event;
-  if ($video.muted) {
-    $video.muted = false;
-    $volumn.className = "fas fa-volume-mute";
-  }
-  if (value == 0) {
-    $volumn.className = "fas fa-volume-off";
-  } else {
-    $volumn.className = "fas fa-volume-up";
-  }
-  $video.volume = volumnValue = value;
+recordFunction();
+
+const handleDownload = () => {
+  //fake Link 만들기
+  const a = document.createElement("a");
+  a.href = audio;
+  a.download = "MY AUDIO.mp4";
+  document.body.appendChild(a);
+  a.click();
 };
 
-const formatTime = (seconds) => {
-  return new Date(seconds * 1000).toISOString().substring(14, 19);
+const handleStop = () => {
+  $recordBtn.textContent = "DOWNLOAD RECORDING";
+  $recordBtn.removeEventListener("click", handleStop);
+  $recordBtn.addEventListener("click", handleDownload);
+  recorder.stop();
 };
 
-const handleLoadedMetadata = () => {
-  $endTime.textContent = formatTime(Math.floor($video.duration));
-  $timeLine.max = Math.floor($video.duration);
+const handleStart = () => {
+  $recordBtn.textContent = "STOP RECORDING";
+
+  recorder = new MediaRecorder(stream);
+  console.log(recorder);
+  recorder.ondataavailable = (e) => {
+    console.log(e.data);
+    //파일을 브라우저의 메모리상에 남아있다. 즉 메모리 누수를 막기위해 reboke를 활용
+    audio = URL.createObjectURL(e.data);
+    console.log(audio);
+    $audio.srcObject = null;
+    $audio.src = audio;
+    $audio.play();
+  };
+  //녹화시작
+  recorder.start();
+  console.log(recorder);
+
+  $recordBtn.removeEventListener("click", handleStart);
+  $recordBtn.addEventListener("click", handleStop);
 };
 
-const handleTimeUpdate = () => {
-  $currentTime.textContent = formatTime(Math.floor($video.currentTime));
-  $timeLine.value = Math.floor($video.currentTime);
-};
-
-const handleTimeLine = (event) => {
-  const {
-    target: { value },
-  } = event;
-  $video.currentTime = value;
-};
-
-const handleScreen = () => {
-  const screenCheck = document.fullscreenElement;
-  if (!screenCheck) {
-    $videoBox.requestFullscreen();
-    $screen.className = "fas fa-compress";
-  } else {
-    document.exitFullscreen();
-    $screen.className = "fas fa-expand";
-  }
-};
-
-const hideController = () => $videoController.classList.remove("showing");
-
-const handleMousemove = () => {
-  if (controlsTimeout) {
-    clearTimeout(controlsTimeout);
-    controlsTimeout = null;
-  }
-  if (controllHide) {
-    clearTimeout(controllHide);
-    controllHide = null;
-  }
-  $videoController.classList.add("showing");
-  controllHide = setTimeout(hideController, 3000);
-};
-
-const handleMouseleave = () => {
-  controlsTimeout = setTimeout(hideController, 3000);
-};
-
-//클릭시 비디오 plav
-const clickPlay = () => {
-  playVideo();
-};
-
-const handleVideoKey = (event) => {
-  const { keyCode } = event;
-  console.log(keyCode);
-  if (keyCode === 32) {
-    playVideo();
-  }
-  if (keyCode === 70) {
-    handleScreen();
-  }
-};
-
-$playBtn.addEventListener("click", playVideo);
-$volumn.addEventListener("click", volumnBtn);
-$volumnRange.addEventListener("input", handleVolumnRange);
-$video.addEventListener("loadedmetadata", handleLoadedMetadata);
-$timeLine.addEventListener("input", handleTimeLine);
-$video.addEventListener("timeupdate", handleTimeUpdate);
-$videoBox.addEventListener("mousemove", handleMousemove);
-$videoBox.addEventListener("mouseleave", handleMouseleave);
-$video.addEventListener("click", clickPlay);
-document.addEventListener("keydown", handleVideoKey);
-$screen.addEventListener("click", handleScreen);
+$recordBtn.addEventListener("click", handleStart);
